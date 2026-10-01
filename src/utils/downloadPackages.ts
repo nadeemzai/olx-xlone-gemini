@@ -749,6 +749,49 @@ export async function downloadFullMonolithZip(): Promise<void> {
     ...COMPANY_PANEL_FILES,
     'database/andaza_pakistan_laravel13_schema.sql': MYSQL_DATABASE_SCHEMA_SQL,
     'README.md': README_INSTRUCTIONS,
+    'composer.json': `{
+    "name": "andaza/andaza-pakistan-monolith",
+    "type": "project",
+    "description": "Andaza Pakistan - Enterprise Classifieds Marketplace Monolith",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2|^8.3|^8.4",
+        "laravel/framework": "^12.0|^11.0",
+        "laravel/reverb": "^1.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.10"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.18",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.5",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\\\": "app/",
+            "Database\\\\Factories\\\\": "database/factories/",
+            "Database\\\\Seeders\\\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    }
+}
+`,
     '.env.example': `APP_NAME="Andaza Pakistan"
 APP_ENV=local
 APP_KEY=
