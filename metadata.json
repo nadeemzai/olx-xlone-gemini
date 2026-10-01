@@ -1,0 +1,6 @@
+{
+  "name": "Andaza Pakistan - Classifieds Marketplace & Architecture Suite",
+  "description": "Complete Andaza Pakistan classifieds marketplace platform with real-time chat, location filtering, admin moderation, verified merchant portal, Laravel 13 Blade architecture, and MySQL schema.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
