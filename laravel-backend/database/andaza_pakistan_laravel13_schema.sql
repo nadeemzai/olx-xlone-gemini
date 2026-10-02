@@ -185,4 +185,55 @@ CREATE TABLE IF NOT EXISTS `moderation_logs` (
   FOREIGN KEY (`moderator_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 11. LARAVEL INFRASTRUCTURE TABLES (Sessions & Cache)
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `id` VARCHAR(255) NOT NULL,
+  `user_id` BIGINT UNSIGNED NULL,
+  `ip_address` VARCHAR(45) NULL,
+  `user_agent` TEXT NULL,
+  `payload` LONGTEXT NOT NULL,
+  `last_activity` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_sessions_user_id` (`user_id`),
+  INDEX `idx_sessions_last_activity` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `cache` (
+  `key` VARCHAR(255) NOT NULL,
+  `value` MEDIUMTEXT NOT NULL,
+  `expiration` INT NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `cache_locks` (
+  `key` VARCHAR(255) NOT NULL,
+  `owner` VARCHAR(255) NOT NULL,
+  `expiration` INT NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 12. INITIAL SEED DATA (Categories & Demo User)
+INSERT INTO `categories` (`id`, `slug`, `name_en`, `name_ur`, `parent_id`, `icon_name`, `display_order`) VALUES
+(1, 'vehicles', 'Motors & Vehicles', 'گاڑیاں اور موٹرز', NULL, 'car', 1),
+(2, 'property', 'Property & Real Estate', 'جائیداد اور پلاٹس', NULL, 'building', 2),
+(3, 'mobiles', 'Mobile Phones & Tablets', 'موبائل فونز', NULL, 'smartphone', 3),
+(4, 'electronics', 'Electronics & Home Appliances', 'الیکٹرانکس', NULL, 'tv', 4),
+(5, 'bikes', 'Bikes & Motorcycles', 'موٹر سائیکل', 1, 'bike', 5),
+(6, 'cars', 'Cars (Civic, Corolla, Alto)', 'کاریں', 1, 'car', 6)
+ON DUPLICATE KEY UPDATE `name_en` = VALUES(`name_en`);
+
+INSERT INTO `users` (`id`, `uuid`, `name`, `email`, `phone`, `password`, `role`, `is_verified`) VALUES
+(1, 'd3b07384-d113-4a11-85b4-d55be5b45281', 'OzTech Admin', 'admin@andaza.com.pk', '+923001234567', '$2y$12$7kP.WnO8kQd5x90Q5u7zZeWvS5B2b9t2o3h5p7t2g9k2', 'admin', 1)
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+
+INSERT INTO `listings` (`id`, `uuid`, `user_id`, `category_id`, `title`, `slug`, `description`, `price`, `condition`, `city`, `area`, `province`, `status`, `is_featured`) VALUES
+(1, 'a1a2a3a4-b1b2-c1c2-d1d2-e1e2e3e4e5e6', 1, 6, 'Honda Civic RS 1.5 VTEC Turbo 2023 - Bumper to Bumper Genuine', 'honda-civic-rs-2023-lahore-1', 'Immaculate condition Honda Civic RS Turbo. Single owner, Islamabad registered, driven only on Hi-Octane. Total genuine paint.', 8950000.00, 'Used', 'Lahore', 'DHA Phase 6', 'Punjab', 'active', 1),
+(2, 'b1b2b3b4-c1c2-d1d2-e1e2-f1f2f3f4f5f6', 1, 3, 'iPhone 15 Pro Max 256GB Natural Titanium (PTA Approved)', 'iphone-15-pro-max-256gb-karachi-2', 'Official PTA approved with box and original cable. Battery health 98%. Scratchless condition.', 465000.00, 'Used', 'Karachi', 'Clifton Block 4', 'Sindh', 'active', 1)
+ON DUPLICATE KEY UPDATE `title` = VALUES(`title`);
+
+INSERT INTO `listing_images` (`id`, `listing_id`, `image_path`, `is_primary`, `order_index`) VALUES
+(1, 1, 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80', 1, 0),
+(2, 2, 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=1200&q=80', 1, 0)
+ON DUPLICATE KEY UPDATE `image_path` = VALUES(`image_path`);
+
 SET FOREIGN_KEY_CHECKS = 1;

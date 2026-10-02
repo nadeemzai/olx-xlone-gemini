@@ -13,8 +13,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Vite Assets (Tailwind CSS v4 + Alpine.js) -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Tailwind CSS (Instant CDN) & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#002f34',
+                        accent: '#23e5db',
+                        highlight: '#ffce32',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-[#f7f8f9] text-[#002f34] antialiased min-h-screen flex flex-col font-sans">
     
